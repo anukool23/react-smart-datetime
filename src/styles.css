@@ -1,0 +1,630 @@
+/* =========================================================================
+   react-datetimeUI — standalone stylesheet
+   Theming is driven entirely by CSS custom properties. Override any
+   --rdt-* variable on .rdt-root (or globally) to restyle the component.
+   No CSS framework required.
+   ========================================================================= */
+
+/* Variables live on both the root and the portaled popover so the popover
+   (rendered into document.body, outside .rdt-root) still resolves them. */
+.rdt-root,
+.rdt-popover-inner {
+  /* palette (light defaults) */
+  --rdt-accent: #6d28d9;
+  --rdt-accent-contrast: #ffffff;
+  --rdt-accent-soft: color-mix(in srgb, var(--rdt-accent) 14%, transparent);
+  --rdt-bg: #ffffff;
+  --rdt-bg-elevated: #ffffff;
+  --rdt-fg: #1f2430;
+  --rdt-fg-muted: #6b7280;
+  --rdt-fg-subtle: #aab1bd;
+  --rdt-border: #e3e6ec;
+  --rdt-hover: #f1f3f7;
+  --rdt-today-ring: color-mix(in srgb, var(--rdt-accent) 45%, transparent);
+  --rdt-shadow: 0 10px 38px -8px rgba(20, 24, 40, 0.28),
+    0 4px 12px -6px rgba(20, 24, 40, 0.18);
+
+  /* metrics */
+  --rdt-radius: 12px;
+  --rdt-radius-sm: 8px;
+  --rdt-cell-size: 36px;
+  --rdt-font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+
+  font-family: var(--rdt-font);
+  color: var(--rdt-fg);
+}
+
+.rdt-root {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.rdt-root *,
+.rdt-popover * {
+  box-sizing: border-box;
+}
+
+/* ---------------------------- dark theme ------------------------------- */
+
+.rdt-theme-dark {
+  --rdt-accent: #a78bfa;
+  --rdt-accent-contrast: #15131f;
+  --rdt-bg: #181a20;
+  --rdt-bg-elevated: #1f2230;
+  --rdt-fg: #e7e9ee;
+  --rdt-fg-muted: #9aa1ad;
+  --rdt-fg-subtle: #5b6270;
+  --rdt-border: #2c303c;
+  --rdt-hover: #272b38;
+  --rdt-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.6),
+    0 4px 14px -6px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  .rdt-theme-auto {
+    --rdt-accent: #a78bfa;
+    --rdt-accent-contrast: #15131f;
+    --rdt-bg: #181a20;
+    --rdt-bg-elevated: #1f2230;
+    --rdt-fg: #e7e9ee;
+    --rdt-fg-muted: #9aa1ad;
+    --rdt-fg-subtle: #5b6270;
+    --rdt-border: #2c303c;
+    --rdt-hover: #272b38;
+    --rdt-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.6),
+      0 4px 14px -6px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* ------------------------------- input --------------------------------- */
+
+.rdt-input {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 200px;
+  padding: 9px 12px;
+  background: var(--rdt-bg);
+  border: 1px solid var(--rdt-border);
+  border-radius: var(--rdt-radius-sm);
+  color: var(--rdt-fg);
+  font-size: 14px;
+  line-height: 1.2;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.rdt-input:hover {
+  border-color: color-mix(in srgb, var(--rdt-accent) 50%, var(--rdt-border));
+}
+
+.rdt-input:focus-visible,
+.rdt-input-open {
+  outline: none;
+  border-color: var(--rdt-accent);
+  box-shadow: 0 0 0 3px var(--rdt-accent-soft);
+}
+
+.rdt-input-icon {
+  display: inline-flex;
+  font-size: 17px;
+  color: var(--rdt-accent);
+  flex-shrink: 0;
+}
+
+.rdt-input-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rdt-placeholder {
+  color: var(--rdt-fg-subtle);
+}
+
+.rdt-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border: none;
+  background: transparent;
+  color: var(--rdt-fg-muted);
+  font-size: 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.rdt-clear:hover {
+  background: var(--rdt-hover);
+  color: var(--rdt-fg);
+}
+
+.rdt-disabled-root .rdt-input {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ------------------------------ popover -------------------------------- */
+
+.rdt-popover {
+  z-index: 2147483000;
+}
+
+.rdt-popover-inner {
+  font-family: var(--rdt-font);
+}
+
+.rdt-panel {
+  background: var(--rdt-bg-elevated);
+  border: 1px solid var(--rdt-border);
+  border-radius: var(--rdt-radius);
+  box-shadow: var(--rdt-shadow);
+  color: var(--rdt-fg);
+  overflow: hidden;
+  animation: rdt-pop 0.14s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rdt-inline .rdt-panel {
+  box-shadow: none;
+}
+
+@keyframes rdt-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rdt-panel {
+    animation: none;
+  }
+}
+
+/* -------------------------------- tabs --------------------------------- */
+
+.rdt-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--rdt-border);
+}
+
+.rdt-tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 8px;
+  border: none;
+  background: transparent;
+  color: var(--rdt-fg-muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.rdt-tab svg {
+  font-size: 15px;
+}
+
+.rdt-tab:hover {
+  color: var(--rdt-fg);
+}
+
+.rdt-tab-active {
+  color: var(--rdt-accent);
+  border-bottom-color: var(--rdt-accent);
+}
+
+/* -------------------------------- body --------------------------------- */
+
+.rdt-body {
+  display: flex;
+}
+
+.rdt-presets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 8px;
+  border-right: 1px solid var(--rdt-border);
+  min-width: 112px;
+}
+
+.rdt-preset {
+  text-align: left;
+  padding: 7px 10px;
+  border: none;
+  background: transparent;
+  color: var(--rdt-fg);
+  font: inherit;
+  font-size: 13px;
+  border-radius: var(--rdt-radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.rdt-preset:hover {
+  background: var(--rdt-accent-soft);
+  color: var(--rdt-accent);
+}
+
+.rdt-months {
+  display: flex;
+  gap: 4px;
+}
+
+/* ------------------------------ calendar ------------------------------- */
+
+.rdt-calendar {
+  padding: 12px;
+}
+
+.rdt-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 4px;
+}
+
+.rdt-nav-group {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.rdt-nav-spacer {
+  width: 56px;
+}
+
+.rdt-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--rdt-fg-muted);
+  font-size: 16px;
+  border-radius: var(--rdt-radius-sm);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.rdt-nav-btn:hover {
+  background: var(--rdt-hover);
+  color: var(--rdt-fg);
+}
+
+.rdt-cal-title {
+  border: none;
+  background: transparent;
+  color: var(--rdt-fg);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--rdt-radius-sm);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.rdt-cal-title:hover {
+  background: var(--rdt-hover);
+}
+
+.rdt-cal-title-static {
+  cursor: default;
+}
+
+.rdt-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, var(--rdt-cell-size));
+  margin-bottom: 2px;
+}
+
+.rdt-weekdays.rdt-has-weeknum {
+  grid-template-columns: 28px repeat(7, var(--rdt-cell-size));
+}
+
+.rdt-weekday,
+.rdt-weeknum-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--rdt-fg-subtle);
+}
+
+.rdt-grid-days {
+  display: flex;
+  flex-direction: column;
+}
+
+.rdt-week {
+  display: grid;
+  grid-template-columns: repeat(7, var(--rdt-cell-size));
+}
+
+.rdt-grid-days.rdt-has-weeknum .rdt-week {
+  grid-template-columns: 28px repeat(7, var(--rdt-cell-size));
+}
+
+.rdt-weeknum {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--rdt-cell-size);
+  font-size: 11px;
+  color: var(--rdt-fg-subtle);
+}
+
+/* ------------------------------- cells --------------------------------- */
+
+.rdt-cell {
+  position: relative;
+  border: none;
+  background: transparent;
+  color: var(--rdt-fg);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  z-index: 0;
+}
+
+.rdt-cell-day {
+  width: var(--rdt-cell-size);
+  height: var(--rdt-cell-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.rdt-cell-day:hover:not(.rdt-disabled):not(.rdt-selected) {
+  background: var(--rdt-hover);
+}
+
+.rdt-cell-day:focus-visible {
+  outline: 2px solid var(--rdt-accent);
+  outline-offset: -2px;
+}
+
+.rdt-outside {
+  color: var(--rdt-fg-subtle);
+}
+
+.rdt-disabled {
+  color: var(--rdt-fg-subtle);
+  opacity: 0.4;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+.rdt-today:not(.rdt-selected) {
+  box-shadow: inset 0 0 0 1.5px var(--rdt-today-ring);
+  font-weight: 600;
+}
+
+.rdt-selected {
+  background: var(--rdt-accent);
+  color: var(--rdt-accent-contrast);
+  font-weight: 600;
+}
+
+.rdt-selected:hover {
+  background: var(--rdt-accent);
+}
+
+/* range painting: a soft band behind cells using a square pseudo element */
+.rdt-in-range {
+  border-radius: 0;
+  background: var(--rdt-accent-soft);
+  color: var(--rdt-fg);
+}
+
+.rdt-in-range::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--rdt-accent-soft);
+  z-index: -1;
+}
+
+.rdt-range-start {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rdt-range-end {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.rdt-range-start::after,
+.rdt-range-end::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: var(--rdt-accent-soft);
+  z-index: -1;
+}
+
+.rdt-range-start::after {
+  right: 0;
+}
+
+.rdt-range-end::after {
+  left: 0;
+}
+
+/* --------------------------- month / year grid ------------------------- */
+
+.rdt-grid-months {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 4px 2px;
+  width: calc(7 * var(--rdt-cell-size));
+}
+
+.rdt-cell-month {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--rdt-radius-sm);
+  font-size: 13px;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.rdt-cell-month:hover:not(.rdt-selected) {
+  background: var(--rdt-hover);
+}
+
+/* ------------------------------- time ---------------------------------- */
+
+.rdt-time {
+  flex: 1;
+  padding: 12px;
+  min-width: 220px;
+}
+
+.rdt-time-cols {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 4px;
+  height: 196px;
+}
+
+.rdt-time-col {
+  flex: 1;
+  max-width: 64px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  scroll-behavior: smooth;
+}
+
+.rdt-time-col::-webkit-scrollbar {
+  width: 6px;
+}
+
+.rdt-time-col::-webkit-scrollbar-thumb {
+  background: var(--rdt-border);
+  border-radius: 3px;
+}
+
+.rdt-time-opt {
+  flex-shrink: 0;
+  padding: 8px 6px;
+  border: none;
+  background: transparent;
+  color: var(--rdt-fg);
+  font: inherit;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  border-radius: var(--rdt-radius-sm);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.rdt-time-opt:hover:not(.rdt-selected) {
+  background: var(--rdt-hover);
+}
+
+.rdt-time-opt.rdt-selected {
+  background: var(--rdt-accent);
+  color: var(--rdt-accent-contrast);
+}
+
+.rdt-time-sep {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--rdt-fg-muted);
+}
+
+/* ------------------------------ footer --------------------------------- */
+
+.rdt-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 12px;
+  border-top: 1px solid var(--rdt-border);
+}
+
+.rdt-footer-info {
+  font-size: 12px;
+  color: var(--rdt-fg-muted);
+}
+
+.rdt-tz {
+  font-variant-numeric: tabular-nums;
+}
+
+.rdt-footer-actions {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.rdt-btn {
+  padding: 6px 14px;
+  border-radius: var(--rdt-radius-sm);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.rdt-btn-ghost {
+  background: transparent;
+  color: var(--rdt-fg-muted);
+}
+
+.rdt-btn-ghost:hover {
+  background: var(--rdt-hover);
+  color: var(--rdt-fg);
+}
+
+.rdt-btn-primary {
+  background: var(--rdt-accent);
+  color: var(--rdt-accent-contrast);
+}
+
+.rdt-btn-primary:hover {
+  filter: brightness(1.06);
+}

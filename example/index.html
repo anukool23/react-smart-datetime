@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>react-datetimeUI — demo</title>
+    <!--
+      Zero-build demo. From the project root:
+        npm run build
+        npx serve .        (or any static server)
+      then open /example/ in the browser.
+    -->
+    <link rel="stylesheet" href="../dist/styles.css" />
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        background: #f6f7fb;
+        color: #1f2430;
+      }
+      header {
+        padding: 40px 24px 8px;
+        text-align: center;
+      }
+      header h1 { margin: 0; font-size: 28px; }
+      header p { color: #6b7280; }
+      main {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 24px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #e3e6ec;
+        border-radius: 14px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      }
+      .card h3 { margin: 0 0 14px; font-size: 14px; color: #6b7280; }
+      .out { margin-top: 12px; font-size: 12px; color: #6d28d9; min-height: 16px; }
+      .dark { background: #181a20; color: #e7e9ee; border-color: #2c303c; }
+      .dark h3 { color: #9aa1ad; }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18.3.1",
+          "react-dom": "https://esm.sh/react-dom@18.3.1",
+          "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+          "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>react-datetimeUI</h1>
+      <p>Modern, accessible, zero-dependency date &amp; time picker</p>
+    </header>
+    <main id="root"></main>
+
+    <script type="module">
+      import React, { useState } from "react";
+      import { createRoot } from "react-dom/client";
+      import {
+        DateTimePicker,
+        rangePresets,
+        singleDatePresets,
+      } from "../dist/index.js";
+
+      const h = React.createElement;
+
+      function Card({ title, children, dark }) {
+        return h("div", { className: "card" + (dark ? " dark" : "") }, [
+          h("h3", { key: "t" }, title),
+          children,
+        ]);
+      }
+
+      function Demo() {
+        const [a, setA] = useState(null);
+        const [b, setB] = useState(null);
+        const [range, setRange] = useState({ start: null, end: null });
+        const [t, setT] = useState(null);
+
+        return h(React.Fragment, null, [
+          h(Card, { key: 1, title: "Date + time" },
+            h("div", null, [
+              h(DateTimePicker, { key: "p", value: a, onChange: setA, showSeconds: true }),
+              h("div", { key: "o", className: "out" },
+                a ? a.toLocaleString() : "—"),
+            ])),
+          h(Card, { key: 2, title: "Date only · presets · week numbers" },
+            h("div", null, [
+              h(DateTimePicker, {
+                key: "p", mode: "date", value: b, onChange: setB,
+                presets: singleDatePresets, showWeekNumbers: true,
+              }),
+              h("div", { key: "o", className: "out" }, b ? b.toDateString() : "—"),
+            ])),
+          h(Card, { key: 3, title: "Range · 2 months · presets" },
+            h("div", null, [
+              h(DateTimePicker, {
+                key: "p", range: true, mode: "date", monthsToShow: 2,
+                rangeValue: range, onRangeChange: setRange, presets: rangePresets,
+              }),
+              h("div", { key: "o", className: "out" },
+                range.start ? `${range.start.toDateString()} → ${range.end ? range.end.toDateString() : "…"}` : "—"),
+            ])),
+          h(Card, { key: 4, title: "Time only · 24h · 15-min steps" },
+            h("div", null, [
+              h(DateTimePicker, {
+                key: "p", mode: "time", value: t, onChange: setT,
+                use24Hour: true, minuteStep: 15,
+              }),
+              h("div", { key: "o", className: "out" },
+                t ? t.toLocaleTimeString() : "—"),
+            ])),
+          h(Card, { key: 5, title: "Dark theme · emerald accent", dark: true },
+            h(DateTimePicker, {
+              mode: "date", theme: "dark", accentColor: "#10b981",
+              placeholder: "Pick a day",
+            })),
+          h(Card, { key: 6, title: "French · Monday start" },
+            h(DateTimePicker, {
+              mode: "date", locale: "fr-FR", firstDayOfWeek: 1,
+              dateFormat: { day: "2-digit", month: "long", year: "numeric" },
+            })),
+        ]);
+      }
+
+      createRoot(document.getElementById("root")).render(h(Demo));
+    </script>
+  </body>
+</html>

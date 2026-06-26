@@ -1,0 +1,86 @@
+{
+  "name": "react-smart-datetime",
+  "version": "1.0.0-beta.1",
+  "description": "A modern, accessible, zero-dependency React date & time picker with range selection, presets, time zones, dark mode, keyboard navigation, and full theming via CSS variables. No Tailwind or CSS framework required.",
+  "author": "Anukool Patel",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run build",
+    "use-node": "export PATH=\"/Users/anukoolpatel/.nvm/versions/node/v22.22.3/bin:$PATH\"",
+    "release:beta": "export PATH=\"/Users/anukoolpatel/.nvm/versions/node/v22.22.3/bin:$PATH\" && npm version prerelease --preid=beta --no-git-tag-version && npm publish --tag beta",
+    "release:stable": "export PATH=\"/Users/anukoolpatel/.nvm/versions/node/v22.22.3/bin:$PATH\" && npm publish --tag latest",
+    "release": "npm run release:stable"
+  },
+  "keywords": [
+    "react",
+    "datepicker",
+    "date-picker",
+    "timepicker",
+    "time-picker",
+    "datetime",
+    "datetime-picker",
+    "calendar",
+    "date-range",
+    "range-picker",
+    "react-component",
+    "accessible",
+    "a11y",
+    "dark-mode",
+    "typescript",
+    "zero-dependency"
+  ],
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@vitest/coverage-v8": "^2.1.8",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "jsdom": "^25.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anukool23/react-datetimeUI.git"
+  },
+  "homepage": "https://github.com/anukool23/react-datetimeUI#readme",
+  "bugs": {
+    "url": "https://github.com/anukool23/react-datetimeUI/issues"
+  }
+}
