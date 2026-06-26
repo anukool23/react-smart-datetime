@@ -77,10 +77,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/anukool23/react-datetimeUI.git"
+    "url": "https://github.com/anukool23/react-smart-datetime.git"
   },
-  "homepage": "https://github.com/anukool23/react-datetimeUI#readme",
+  "homepage": "https://github.com/anukool23/react-smart-datetime#readme",
   "bugs": {
-    "url": "https://github.com/anukool23/react-datetimeUI/issues"
+    "url": "https://github.com/anukool23/react-smart-datetime/issues"
   }
 }

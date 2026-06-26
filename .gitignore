@@ -9,3 +9,6 @@ coverage
 
 # packed tarballs
 *.tgz
+
+# npm auth (CI writes one with the token)
+.npmrc
