@@ -1,4 +1,4 @@
-# react-datetimeUI
+# react-smart-datetime
 
 A modern, accessible, **zero-dependency** React date & time picker.
 
@@ -12,9 +12,9 @@ small component. **No Tailwind or CSS framework required.**
 
 ---
 
-## ✨ Why react-datetimeUI?
+## ✨ Why react-smart-datetime?
 
-| | react-datetimeUI | typical Tailwind-based pickers |
+| | react-smart-datetime | typical Tailwind-based pickers |
 | --- | --- | --- |
 | Styling | Ships a real stylesheet, themed with CSS variables | Requires Tailwind + breaks under JIT class purging |
 | Runtime deps | **0** (icons inlined) | `lucide-react`, etc. |
@@ -405,4 +405,4 @@ a tag `1.2.0-beta.3`, and a branch `1.2.0-beta.3`.
 
 ## License
 
-MIT © react-datetimeUI contributors
+MIT © react-smart-datetime contributors

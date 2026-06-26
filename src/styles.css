@@ -1,5 +1,5 @@
 /* =========================================================================
-   react-datetimeUI — standalone stylesheet
+   react-smart-datetime — standalone stylesheet
    Theming is driven entirely by CSS custom properties. Override any
    --rdt-* variable on .rdt-root (or globally) to restyle the component.
    No CSS framework required.
