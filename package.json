@@ -1,6 +1,6 @@
 {
   "name": "react-smart-datetime",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A modern, accessible, zero-dependency React date & time picker with range selection, presets, time zones, dark mode, keyboard navigation, and full theming via CSS variables. No Tailwind or CSS framework required.",
   "author": "Anukool Patel",
   "license": "MIT",
