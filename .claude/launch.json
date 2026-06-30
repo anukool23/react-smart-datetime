@@ -6,6 +6,15 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["-y", "serve", "-l", "5599", "."],
       "port": 5599
+    },
+    {
+      "name": "catalog",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "export PATH=\"/Users/anukoolpatel/.nvm/versions/node/v22.22.3/bin:$PATH\" && cd /Users/anukoolpatel/Local/TechStacks/catalog-master && npm run dev -- -p 5610"
+      ],
+      "port": 5610
     }
   ]
 }

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>react-smart-datetime — showcase</title>
+    <link rel="stylesheet" href="../dist/styles.css" />
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        background: radial-gradient(1200px 600px at 50% -10%, #efe9ff 0%, #f6f7fb 45%, #f2f4f8 100%);
+        color: #1f2430;
+      }
+      .wrap { max-width: 1200px; margin: 0 auto; padding: 40px 28px 48px; }
+      header { text-align: center; margin-bottom: 30px; }
+      .pill {
+        display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .04em;
+        text-transform: uppercase; color: #6d28d9; background: #ede9fe;
+        padding: 5px 12px; border-radius: 999px; margin-bottom: 14px;
+      }
+      h1 { margin: 0 0 8px; font-size: 34px; letter-spacing: -0.02em; }
+      h1 .pkg { color: #6d28d9; }
+      header p { margin: 0; color: #6b7280; font-size: 15px; }
+      .tags { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+      .tag { font-size: 12px; color: #4b5563; background: #fff; border: 1px solid #e3e6ec;
+             padding: 5px 10px; border-radius: 8px; }
+      .grid {
+        display: grid; gap: 22px;
+        grid-template-columns: repeat(12, 1fr);
+        align-items: start;
+      }
+      .card {
+        background: #fff; border: 1px solid #e6e8ee; border-radius: 16px;
+        padding: 16px 16px 18px; box-shadow: 0 8px 30px -14px rgba(30,30,60,.22);
+      }
+      .card.dark { background: #181a20; border-color: #2c303c; }
+      .card h3 { margin: 2px 4px 12px; font-size: 13px; font-weight: 600; color: #6b7280; }
+      .card.dark h3 { color: #9aa1ad; }
+      .pickbox { display: flex; justify-content: center; }
+      /* let inline panels show a soft border for the showcase */
+      .pickbox .rdt-panel { border-color: #e6e8ee; }
+      .col-6 { grid-column: span 6; }
+      .col-4 { grid-column: span 4; }
+      .col-8 { grid-column: span 8; }
+      footer { text-align: center; margin-top: 30px; color: #6b7280; font-size: 13px; }
+      footer code { background: #fff; border: 1px solid #e3e6ec; padding: 3px 8px; border-radius: 6px; color: #6d28d9; }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18.3.1",
+          "react-dom": "https://esm.sh/react-dom@18.3.1",
+          "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+          "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <span class="pill">Open source · npm</span>
+        <h1><span class="pkg">react-smart-datetime</span></h1>
+        <p>A modern, accessible, zero-dependency React date &amp; time picker — no Tailwind required</p>
+        <div class="tags">
+          <span class="tag">📅 date · time · range</span>
+          <span class="tag">🎨 CSS-variable theming</span>
+          <span class="tag">🌙 light / dark / auto</span>
+          <span class="tag">⌨️ keyboard a11y</span>
+          <span class="tag">🌍 i18n + time zones</span>
+          <span class="tag">🪶 0 dependencies</span>
+        </div>
+      </header>
+
+      <div class="grid" id="root"></div>
+
+      <footer>
+        <code>npm i react-smart-datetime</code> &nbsp;·&nbsp; MIT licensed &nbsp;·&nbsp; ESM + CJS + TypeScript
+      </footer>
+    </div>
+
+    <script type="module">
+      import React from "react";
+      import { createRoot } from "react-dom/client";
+      import { DateTimePicker, rangePresets, singleDatePresets } from "../dist/index.js";
+
+      const h = React.createElement;
+      const D = (y, m, d) => new Date(y, m, d);
+
+      function Card({ title, span, dark, child }) {
+        return h("div", { className: `card${dark ? " dark" : ""} col-${span}` }, [
+          h("h3", { key: "t" }, title),
+          h("div", { key: "p", className: "pickbox" }, child),
+        ]);
+      }
+
+      const cards = [
+        Card({
+          title: "Date + Time · tabs",
+          span: 4,
+          child: h(DateTimePicker, {
+            inline: true, mode: "datetime", defaultValue: D(2026, 5, 14),
+            showFooter: false,
+          }),
+        }),
+        Card({
+          title: "Date · presets · week numbers",
+          span: 4,
+          child: h(DateTimePicker, {
+            inline: true, mode: "date", defaultValue: D(2026, 5, 14),
+            presets: singleDatePresets, showWeekNumbers: true,
+            accentColor: "#2563eb", showFooter: false,
+          }),
+        }),
+        Card({
+          title: "Time · 24h · seconds",
+          span: 4,
+          child: h(DateTimePicker, {
+            inline: true, mode: "time", defaultValue: new Date(2026, 5, 14, 14, 30, 15),
+            use24Hour: true, showSeconds: true, accentColor: "#e11d48", showFooter: false,
+          }),
+        }),
+        Card({
+          title: "Range · 2 months · presets",
+          span: 8,
+          child: h(DateTimePicker, {
+            inline: true, range: true, mode: "date", monthsToShow: 2,
+            defaultRangeValue: { start: D(2026, 5, 10), end: D(2026, 5, 20) },
+            presets: rangePresets, accentColor: "#10b981", showFooter: false,
+          }),
+        }),
+        Card({
+          title: "Dark theme · amber accent",
+          span: 4,
+          dark: true,
+          child: h(DateTimePicker, {
+            inline: true, mode: "date", theme: "dark", defaultValue: D(2026, 5, 14),
+            accentColor: "#f59e0b", showFooter: false,
+          }),
+        }),
+      ];
+
+      createRoot(document.getElementById("root")).render(h(React.Fragment, null, cards));
+    </script>
+  </body>
+</html>
